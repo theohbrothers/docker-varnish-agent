@@ -1,6 +1,4 @@
 @"
-FROM ubuntu:16.04
-
 RUN VARNISH_AGENT_VERSION="$( $VARIANT['tag'] )" \
     && VARNISH_DASHBOARD_COMMIT="e2cc1c854941c9fac18bdfedba2819fa766a5549" \
     && buildDeps="automake build-essential curl ca-certificates libvarnishapi-dev libmicrohttpd-dev libcurl4-gnutls-dev pkg-config python-docutils git" \
