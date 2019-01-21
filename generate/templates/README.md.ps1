@@ -21,7 +21,7 @@ It also includes the [Enhanced Varnish Dashboard ](https://github.com/brandonwam
 | `VARNISH_AGENT_PASSWORD` | `admin` | The Varnish Agent password for basic authentication.
 | `VARNISH_AGENT_PORT` | `6085` | The Varnish Agent port.
 | `DASHBOARD_ENABLED` | `''` | Whether you want to use the realtime [`Varnish Dashboard`](https://github.com/brandonwamboldt/varnish-dashboard). If the value is empty, the dashboard is disabled.
-| `DASHBOARD_VARNISH_SERVER_DISPLAY_NAME` | `Varnish` | The display name of the varnish instance as seen in the Varnish Dashboard.
+| `DASHBOARD_VARNISH_SERVER_DISPLAY_NAME` | `Varnish` | The display name of the varnish instance as seen in the `Varnish Dashboard`.
 
 ## Behaviour
 - At entrypoint, the Varnish Agent secret file is created in `/usr/local/etc/varnish/agent_secret` in the format `$VARNISH_AGENT_USER:$VARNISH_AGENT_PASSWORD`. By default, that will be `admin:admin`
