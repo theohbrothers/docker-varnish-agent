@@ -35,7 +35,7 @@ RUN VARNISH_AGENT_VERSION="$( $VARIANT['tag'] )" \
     \
     # Install runtime dependencies
     && apt-get update \
-    && apt-get install $runDeps \
+    && apt-get install -y --no-install-recommends $runDeps \
     \
     # Cleanup
     && apt-get clean \
