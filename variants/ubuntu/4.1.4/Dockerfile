@@ -1,11 +1,12 @@
-@"
+FROM ubuntu:
+
+RUN apk add --no-cache curl wget
+
 FROM ubuntu:16.04
 
-RUN VARNISH_AGENT_VERSION="$( $VARIANT['tag'] )" \
+RUN VARNISH_AGENT_VERSION="4.1.4" \
     && VARNISH_DASHBOARD_COMMIT="e2cc1c854941c9fac18bdfedba2819fa766a5549" \
     && buildDeps="automake build-essential curl ca-certificates libvarnishapi-dev libmicrohttpd-dev libcurl4-gnutls-dev pkg-config python-docutils git" \
-
-"@ + @'
     \
     # Install Varnish Agent
     && apt-get update \
@@ -41,4 +42,9 @@ RUN chmod +x /docker-entrypoint.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["varnish-agent", "-d"]
-'@
+
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["varnish-agent", "-d"]

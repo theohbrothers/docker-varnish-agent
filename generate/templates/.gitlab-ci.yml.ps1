@@ -33,7 +33,10 @@ stages:
   script:
   - date '+%Y-%m-%d %H:%M:%S %z'
 
+  - docker pull "${DOCKERHUB_REGISTRY_USER}/${CI_PROJECT_NAME}:${VARIANT_TAG_WITH_VERSION}" || true
+
   - docker build
+    --cache-from "${DOCKERHUB_REGISTRY_USER}/${CI_PROJECT_NAME}:${VARIANT_TAG_WITH_VERSION}"
     -t "${DOCKERHUB_REGISTRY_USER}/${CI_PROJECT_NAME}:${VARIANT_TAG}"
     -t "${DOCKERHUB_REGISTRY_USER}/${CI_PROJECT_NAME}:${VARIANT_TAG_WITH_VERSION}"
     -t "${CI_REGISTRY_IMAGE}:${VARIANT_TAG}"
