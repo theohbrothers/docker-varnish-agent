@@ -31,6 +31,14 @@ $VARIANTS_SHARED = @{
                     }
                 )
             }
+            'docker-compose.yml' = @{
+                common = $true
+                passes = @(
+                    @{
+                        variables = @{}
+                    }
+                )
+            }
         }
     }
 }
