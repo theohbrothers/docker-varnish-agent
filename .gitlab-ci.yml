@@ -67,3 +67,10 @@ build-4.1.4:
     VARIANT_TAG: 4.1.4
     VARIANT_TAG_WITH_VERSION: 4.1.4-$CI_COMMIT_REF_NAME
     VARIANT_BUILD_DIR: variants/ubuntu/4.1.4
+
+build-4.0.2:
+  <<: *build_definition
+  variables:
+    VARIANT_TAG: 4.0.2
+    VARIANT_TAG_WITH_VERSION: 4.0.2-$CI_COMMIT_REF_NAME
+    VARIANT_BUILD_DIR: variants/ubuntu/4.0.2

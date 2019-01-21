@@ -5,7 +5,8 @@ It also includes the [Enhanced Varnish Dashboard ](https://github.com/brandonwam
 
 | Tags |
 |:-------:| 
-| `:4.1.4` |
+| `:4.1.4` | 
+| `:4.0.2` |
 
 ## Environment variables
 
