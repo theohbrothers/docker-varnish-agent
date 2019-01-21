@@ -32,7 +32,7 @@ RUN VARNISH_AGENT_VERSION="4.1.4" \
     \
     # Install runtime dependencies
     && apt-get update \
-    && apt-get install $runDeps \
+    && apt-get install -y --no-install-recommends $runDeps \
     \
     # Cleanup
     && apt-get clean \
