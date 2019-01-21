@@ -18,7 +18,7 @@ RUN VARNISH_AGENT_VERSION="4.1.4" \
     && ldconfig \
     \
     # Install Varnish Dashboard
-    apt-get install -y --no-install-recommends git \
+    && apt-get install -y --no-install-recommends git \
     && mkdir -p /var/www/html \
     && cd /var/www/html \
     && git clone https://github.com/brandonwamboldt/varnish-dashboard.git \
