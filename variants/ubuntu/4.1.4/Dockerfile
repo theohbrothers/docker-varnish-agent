@@ -28,7 +28,7 @@ RUN VARNISH_AGENT_VERSION="4.1.4" \
     # Cleanup
     && apt-get purge -y --auto-remove $buildDeps \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
     \
     # Install runtime dependencies
     && apt-get update \
