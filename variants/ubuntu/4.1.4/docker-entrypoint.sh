@@ -19,14 +19,9 @@ VARNISH_AGENT_PORT="${VARNISH_AGENT_PORT:-6085}"
 DASHBOARD_ENABLED="${DASHBOARD_ENABLED:-}"
 DASHBOARD_VARNISH_SERVER_DISPLAY_NAME="${DASHBOARD_VARNISH_SERVER_DISPLAY_NAME:-Varnish}"
 
-# Validate we have necessary environment variables
-[ -z "$VARNISH_HOST" ] && error "Environment variable VARNISH_HOST is mandatory but is not defined!" && got_error=1
-[ -z "$VARNISH_HOST_MANAGEMENT_PORT" ] && error "Environment variable VARNISH_HOST_MANAGEMENT_PORT is mandatory but is not defined!" && got_error=1
-if [ "$DASHBOARD_ENABLED" = 1 ]; then
-    output "Dashboard will be enabled"
-    [ -z "$VARNISH_AGENT_PORT" ] && error "Environment variable VARNISH_AGENT_PORT is mandatory but is not defined!" && got_error=1
+if [ ! -z "$DASHBOARD_ENABLED" = 1 ]; then
+    output "Varnish Dashboard will be enabled"
 fi
-[ ! -z "$got_error" ] && exit 1
 
 # Generate varnish agent command line
 if [ -z "$1" ] || [ "$1" = "varnish-agent" ]; then
