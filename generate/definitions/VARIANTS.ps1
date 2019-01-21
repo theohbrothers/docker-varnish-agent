@@ -6,11 +6,6 @@ $VARIANTS = @(
         distro = 'ubuntu'
         VARNISH_DASHBOARD_COMMIT = "e2cc1c854941c9fac18bdfedba2819fa766a5549"
     }
-    @{
-        tag = '4.0.2'
-        distro = 'ubuntu'
-        VARNISH_DASHBOARD_COMMIT = "e2cc1c854941c9fac18bdfedba2819fa766a5549"
-    }
 )
 
 # Docker image variants' definitions (shared)
