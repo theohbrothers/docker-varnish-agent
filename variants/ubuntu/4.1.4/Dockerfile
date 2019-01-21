@@ -33,11 +33,7 @@ RUN VARNISH_AGENT_VERSION="4.1.4" \
 # Create a varnish system user in case we need to use it
 RUN useradd -r -s /bin/false varnish
 
-COPY docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod +x /docker-entrypoint.sh
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["varnish-agent", "-d"]
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
