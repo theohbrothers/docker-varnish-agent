@@ -1,0 +1,185 @@
+image: docker:latest
+services:
+  - docker:dind
+variables:
+  DOCKER_DRIVER: overlay2
+
+stages:
+  - build
+
+.build_template: &build_definition
+  stage: build
+  only:
+    refs:
+      - branches
+      - /^v(?:\d+\.)+\d+$/
+    variables:
+      - $VARIANT_TAG
+      - $VARIANT_TAG_WITH_VERSION
+      - $VARIANT_BUILD_DIR
+  except:
+      refs:
+        - master
+  before_script:
+  - date '+%Y-%m-%d %H:%M:%S %z'
+
+  # Login to Docker Hub registry
+  - echo "${DOCKERHUB_REGISTRY_PASSWORD}" | docker login -u "${DOCKERHUB_REGISTRY_USER}" --password-stdin
+
+  # Login to GitLab registry
+  - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
+
+  script:
+  - date '+%Y-%m-%d %H:%M:%S %z'
+
+  - docker build
+    -t "${DOCKERHUB_REGISTRY_USER}/${CI_PROJECT_NAME}:${VARIANT_TAG}"
+    -t "${DOCKERHUB_REGISTRY_USER}/${CI_PROJECT_NAME}:${VARIANT_TAG_WITH_VERSION}"
+    -t "${CI_REGISTRY_IMAGE}:${VARIANT_TAG}"
+    -t "${CI_REGISTRY_IMAGE}:${VARIANT_TAG_WITH_VERSION}"
+    "${VARIANT_BUILD_DIR}"
+
+  - date '+%Y-%m-%d %H:%M:%S %z'
+
+  # Push to Docker Hub registry. E.g. 'namespace/my-project:tag'
+  - docker push "${DOCKERHUB_REGISTRY_USER}/${CI_PROJECT_NAME}:${VARIANT_TAG}"
+  - docker push "${DOCKERHUB_REGISTRY_USER}/${CI_PROJECT_NAME}:${VARIANT_TAG_WITH_VERSION}"
+
+  # Push to GitLab registry. E.g. 'registry.gitlab.com/namespace/my-project:tag
+  - docker push "${CI_REGISTRY_IMAGE}:${VARIANT_TAG}"
+  - docker push "${CI_REGISTRY_IMAGE}:${VARIANT_TAG_WITH_VERSION}"
+
+  after_script:
+  - date '+%Y-%m-%d %H:%M:%S %z'
+
+  # Log out of Docker Hub registry
+  - docker logout
+
+  # Log out of GitLab registry
+  - docker logout "${CI_REGISTRY}"
+
+build-cron:
+  <<: *build_definition
+  variables:
+    VARIANT_TAG: cron
+    VARIANT_TAG_WITH_VERSION: cron-$CI_COMMIT_REF_NAME
+    VARIANT_BUILD_DIR: variants/ubuntu/cron
+
+build-cron-emailsender:
+  <<: *build_definition
+  variables:
+    VARIANT_TAG: cron-emailsender
+    VARIANT_TAG_WITH_VERSION: cron-emailsender-$CI_COMMIT_REF_NAME
+    VARIANT_BUILD_DIR: variants/ubuntu/cron-emailsender
+
+build-cron-geoip:
+  <<: *build_definition
+  variables:
+    VARIANT_TAG: cron-geoip
+    VARIANT_TAG_WITH_VERSION: cron-geoip-$CI_COMMIT_REF_NAME
+    VARIANT_BUILD_DIR: variants/ubuntu/cron-geoip
+
+build-cron-geoip-geoip2:
+  <<: *build_definition
+  variables:
+    VARIANT_TAG: cron-geoip-geoip2
+    VARIANT_TAG_WITH_VERSION: cron-geoip-geoip2-$CI_COMMIT_REF_NAME
+    VARIANT_BUILD_DIR: variants/ubuntu/cron-geoip-geoip2
+
+build-cron-geoip-geoip2-emailsender:
+  <<: *build_definition
+  variables:
+    VARIANT_TAG: cron-geoip-geoip2-emailsender
+    VARIANT_TAG_WITH_VERSION: cron-geoip-geoip2-emailsender-$CI_COMMIT_REF_NAME
+    VARIANT_BUILD_DIR: variants/ubuntu/cron-geoip-geoip2-emailsender
+
+build-emailsender:
+  <<: *build_definition
+  variables:
+    VARIANT_TAG: emailsender
+    VARIANT_TAG_WITH_VERSION: emailsender-$CI_COMMIT_REF_NAME
+    VARIANT_BUILD_DIR: variants/ubuntu/emailsender
+
+build-geoip:
+  <<: *build_definition
+  variables:
+    VARIANT_TAG: geoip
+    VARIANT_TAG_WITH_VERSION: geoip-$CI_COMMIT_REF_NAME
+    VARIANT_BUILD_DIR: variants/ubuntu/geoip
+
+build-geoip-geoip2:
+  <<: *build_definition
+  variables:
+    VARIANT_TAG: geoip-geoip2
+    VARIANT_TAG_WITH_VERSION: geoip-geoip2-$CI_COMMIT_REF_NAME
+    VARIANT_BUILD_DIR: variants/ubuntu/geoip-geoip2
+
+build-geoip-geoip2-emailsender:
+  <<: *build_definition
+  variables:
+    VARIANT_TAG: geoip-geoip2-emailsender
+    VARIANT_TAG_WITH_VERSION: geoip-geoip2-emailsender-$CI_COMMIT_REF_NAME
+    VARIANT_BUILD_DIR: variants/ubuntu/geoip-geoip2-emailsender
+
+build-cron-alpine:
+  <<: *build_definition
+  variables:
+    VARIANT_TAG: cron-alpine
+    VARIANT_TAG_WITH_VERSION: cron-alpine-$CI_COMMIT_REF_NAME
+    VARIANT_BUILD_DIR: variants/alpine/cron
+
+build-cron-emailsender-alpine:
+  <<: *build_definition
+  variables:
+    VARIANT_TAG: cron-emailsender-alpine
+    VARIANT_TAG_WITH_VERSION: cron-emailsender-alpine-$CI_COMMIT_REF_NAME
+    VARIANT_BUILD_DIR: variants/alpine/cron-emailsender
+
+build-cron-geoip-alpine:
+  <<: *build_definition
+  variables:
+    VARIANT_TAG: cron-geoip-alpine
+    VARIANT_TAG_WITH_VERSION: cron-geoip-alpine-$CI_COMMIT_REF_NAME
+    VARIANT_BUILD_DIR: variants/alpine/cron-geoip
+
+build-cron-geoip-geoip2-alpine:
+  <<: *build_definition
+  variables:
+    VARIANT_TAG: cron-geoip-geoip2-alpine
+    VARIANT_TAG_WITH_VERSION: cron-geoip-geoip2-alpine-$CI_COMMIT_REF_NAME
+    VARIANT_BUILD_DIR: variants/alpine/cron-geoip-geoip2
+
+build-cron-geoip-geoip2-emailsender-alpine:
+  <<: *build_definition
+  variables:
+    VARIANT_TAG: cron-geoip-geoip2-emailsender-alpine
+    VARIANT_TAG_WITH_VERSION: cron-geoip-geoip2-emailsender-alpine-$CI_COMMIT_REF_NAME
+    VARIANT_BUILD_DIR: variants/alpine/cron-geoip-geoip2-emailsender
+
+build-emailsender-alpine:
+  <<: *build_definition
+  variables:
+    VARIANT_TAG: emailsender-alpine
+    VARIANT_TAG_WITH_VERSION: emailsender-alpine-$CI_COMMIT_REF_NAME
+    VARIANT_BUILD_DIR: variants/alpine/emailsender
+
+build-geoip-alpine:
+  <<: *build_definition
+  variables:
+    VARIANT_TAG: geoip-alpine
+    VARIANT_TAG_WITH_VERSION: geoip-alpine-$CI_COMMIT_REF_NAME
+    VARIANT_BUILD_DIR: variants/alpine/geoip
+
+build-geoip-geoip2-alpine:
+  <<: *build_definition
+  variables:
+    VARIANT_TAG: geoip-geoip2-alpine
+    VARIANT_TAG_WITH_VERSION: geoip-geoip2-alpine-$CI_COMMIT_REF_NAME
+    VARIANT_BUILD_DIR: variants/alpine/geoip-geoip2
+
+build-geoip-geoip2-emailsender-alpine:
+  <<: *build_definition
+  variables:
+    VARIANT_TAG: geoip-geoip2-emailsender-alpine
+    VARIANT_TAG_WITH_VERSION: geoip-geoip2-emailsender-alpine-$CI_COMMIT_REF_NAME
+    VARIANT_BUILD_DIR: variants/alpine/geoip-geoip2-emailsender
