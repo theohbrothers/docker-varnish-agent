@@ -1,10 +1,10 @@
 # docker-varnish-agent
 
-This is a docker image for the [Varnish Agent](https://github.com/varnish/vagent2).
+This is a docker image for the [Varnish Agent](https://github.com/varnish/vagent2), based on Ubuntu 16.04.
 It also includes the [Enhanced Varnish Dashboard ](https://github.com/brandonwamboldt/varnish-dashboard) which you may use if you want to.
 
 | Tags |
-|:-------:| 
+|:-------:|
 | `:4.1.4` |
 
 ## Environment variables
@@ -20,8 +20,11 @@ It also includes the [Enhanced Varnish Dashboard ](https://github.com/brandonwam
 | `DASHBOARD_VARNISH_SERVER_DISPLAY_NAME` | `Varnish` | The display name of the varnish instance as seen in the `Varnish Dashboard`.
 
 ## Behaviour
-- At entrypoint, the Varnish Agent secret file is created in `/usr/local/etc/varnish/agent_secret` in the format `$VARNISH_AGENT_USER:$VARNISH_AGENT_PASSWORD`. By default, that will be `admin:admin`
-- Once the container starts, the Varnish Agent / Varnish Dashboard frontend will be ready, and accessible via basic authentication.
+- At entrypoint, a Varnish Agent secret file is created in `/usr/local/etc/varnish/agent_secret` in the format `$VARNISH_AGENT_USER:$VARNISH_AGENT_PASSWORD`. By default, that will be `admin:admin`
+- Once the container has fully started up, the Varnish Agent / Varnish Dashboard frontend will be ready, and accessible via basic authentication.
 
-## Notes
+## How to use
 - An example `docker-compose.yml` is included to demonstrating how to use this image with an separate Varnish image (e.g. [`varnish-alpine-docker`](https://github.com/thiagofigueiro/varnish-alpine-docker)).
+
+## TODO
+- Alpine image, which at the moment is not yet supported by the [Varnish Agent](https://github.com/varnish/vagent2)
