@@ -4,7 +4,7 @@ This is a docker image for the [Varnish Agent](https://github.com/varnish/vagent
 It also includes the [Enhanced Varnish Dashboard ](https://github.com/brandonwamboldt/varnish-dashboard) which you may use if you want to.
 
 | Tags |
-|:-------:|
+|:-------:| 
 | `:4.1.4` |
 
 ## Environment variables
