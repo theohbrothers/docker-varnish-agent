@@ -11,7 +11,7 @@ services:
     # The hostname must match for varnish and varnish-agent services so that the Varnish Shared Memory Log created in /var/lib/varnish/$HOSTNAME/_.vsm will be shared by both the varnish and the varnish-agent
     hostname: varnish-host
     ports:
-      "80:80"
+      - "80:80"
     volumes:
       # This tmpfs volume allows the Varnish Shared Memory Log to be shared by both varnish and varnish-agent
       - type: volume
