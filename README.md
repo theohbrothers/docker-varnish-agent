@@ -1,5 +1,7 @@
 # docker-varnish-agent
 
+[![pipeline status](https://gitlab.com/leojonathanoh/docker-varnish-agent/badges/dev/pipeline.svg)](https://gitlab.com/leojonathanoh/docker-varnish-agent/commits/dev)
+
 This is a docker image for the [Varnish Agent](https://github.com/varnish/vagent2), based on Ubuntu 16.04.
 It also includes the [Enhanced Varnish Dashboard ](https://github.com/brandonwamboldt/varnish-dashboard) which you may use if you want to.
 
