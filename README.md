@@ -1,6 +1,6 @@
 # docker-varnish-agent
 
-[![pipeline status](https://gitlab.com/leojonathanoh/docker-varnish-agent/badges/dev/pipeline.svg)](https://gitlab.com/leojonathanoh/docker-varnish-agent/commits/dev)
+[![github-actions](https://github.com/leojonathanoh/docker-varnish-agent/workflows/build/badge.svg)](https://github.com/leojonathanoh/docker-varnish-agent/actions)
 [![docker-image-size](https://img.shields.io/microbadger/image-size/leojonathanoh/docker-varnish-agent/latest)](https://hub.docker.com/r/leojonathanoh/docker-varnish-agent)
 [![docker-image-layers](https://img.shields.io/microbadger/layers/leojonathanoh/docker-varnish-agent/latest)](https://hub.docker.com/r/leojonathanoh/docker-varnish-agent)
 
