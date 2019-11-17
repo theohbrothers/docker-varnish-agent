@@ -24,7 +24,7 @@ services:
   varnish-agent:
 
 '@ + @"
-    image: leojonathanoh/docker-varnish-agent:$( $VARIANT['tag'] )
+    image: theohbrothers/docker-varnish-agent:$( $VARIANT['tag'] )
 
 "@ + @'
     # The hostname must match for varnish and varnish-agent services so that the Varnish Shared Memory Log created in /var/lib/varnish/$HOSTNAME/_.vsm will be shared by both the varnish and the varnish-agent

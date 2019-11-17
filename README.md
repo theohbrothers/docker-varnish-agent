@@ -1,8 +1,8 @@
 # docker-varnish-agent
 
-[![github-actions](https://github.com/leojonathanoh/docker-varnish-agent/workflows/build/badge.svg)](https://github.com/leojonathanoh/docker-varnish-agent/actions)
-[![docker-image-size](https://img.shields.io/microbadger/image-size/leojonathanoh/docker-varnish-agent/latest)](https://hub.docker.com/r/leojonathanoh/docker-varnish-agent)
-[![docker-image-layers](https://img.shields.io/microbadger/layers/leojonathanoh/docker-varnish-agent/latest)](https://hub.docker.com/r/leojonathanoh/docker-varnish-agent)
+[![github-actions](https://github.com/theohbrothers/docker-varnish-agent/workflows/build/badge.svg)](https://github.com/theohbrothers/docker-varnish-agent/actions)
+[![docker-image-size](https://img.shields.io/microbadger/image-size/theohbrothers/docker-varnish-agent/latest)](https://hub.docker.com/r/theohbrothers/docker-varnish-agent)
+[![docker-image-layers](https://img.shields.io/microbadger/layers/theohbrothers/docker-varnish-agent/latest)](https://hub.docker.com/r/theohbrothers/docker-varnish-agent)
 
 This is a docker image for the [Varnish Agent](https://github.com/varnish/vagent2), based on Ubuntu 16.04.
 It also includes the [Enhanced Varnish Dashboard](https://github.com/brandonwamboldt/varnish-dashboard) which you may use if you want to.
