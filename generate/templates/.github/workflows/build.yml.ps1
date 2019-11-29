@@ -55,7 +55,7 @@ $( $VARIANTS | % {
         CI_PROJECT_NAME=$( echo "${GITHUB_REPOSITORY}" | rev | cut -d '/' -f 1 | rev )
 
         # Get 'ref-name' from 'refs/heads/ref-name'
-        VARIANT_TAG_WITH_VERSION=$( echo "${GITHUB_REF}" | rev | cut -d '/' -f 1 | rev )
+        VARIANT_TAG_WITH_VERSION="${VARIANT_TAG}-$( echo "${GITHUB_REF}" | rev | cut -d '/' -f 1 | rev )"
 
         docker build \
           -t "${DOCKERHUB_REGISTRY_USER}/${CI_PROJECT_NAME}:${VARIANT_TAG}" \
