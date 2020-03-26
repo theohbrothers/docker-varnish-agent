@@ -9,6 +9,7 @@ $VARIANTS = @(
             VARNISH_DASHBOARD_COMMIT = "e2cc1c854941c9fac18bdfedba2819fa766a5549"
         }
         tag = '4.1.4-ubuntu-16.04'
+        tag_as_latest = $true
     }
 )
 
