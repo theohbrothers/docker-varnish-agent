@@ -10,8 +10,8 @@ It also includes the [Enhanced Varnish Dashboard](https://github.com/brandonwamb
 ## Tags
 
 | Tags |
-|:-------:| 
-| `:4.1.4-ubuntu-16.04` |
+|:-------:|
+| `:4.1.4-ubuntu-16.04`, `:latest` |
 
 ## Quick start
 
