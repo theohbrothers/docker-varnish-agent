@@ -13,9 +13,9 @@ It also includes the [Enhanced Varnish Dashboard](https://github.com/brandonwamb
 |:-------:|
 | `:4.1.4-ubuntu-16.04`, `:latest` |
 
-## Quick start
+## Usage
 
-- An example `docker-compose.yml` is included demonstrating how to use this image with an separate Varnish image (e.g. [`varnish-alpine-docker`](https://github.com/thiagofigueiro/varnish-alpine-docker)).
+An example `docker-compose.yml` is included demonstrating how to use this image with an separate Varnish image (e.g. [`varnish-alpine-docker`](https://github.com/thiagofigueiro/varnish-alpine-docker)).
 
 ## Environment variables
 
