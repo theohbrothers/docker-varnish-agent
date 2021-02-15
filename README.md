@@ -1,6 +1,6 @@
 # docker-varnish-agent
 
-[![github-actions](https://github.com/theohbrothers/docker-varnish-agent/workflows/build/badge.svg)](https://github.com/theohbrothers/docker-varnish-agent/actions)
+[![github-actions](https://github.com/theohbrothers/docker-varnish-agent/workflows/ci-master-pr/badge.svg)](https://github.com/theohbrothers/docker-varnish-agent/actions)
 [![docker-image-size](https://img.shields.io/microbadger/image-size/theohbrothers/docker-varnish-agent/latest)](https://hub.docker.com/r/theohbrothers/docker-varnish-agent)
 [![docker-image-layers](https://img.shields.io/microbadger/layers/theohbrothers/docker-varnish-agent/latest)](https://hub.docker.com/r/theohbrothers/docker-varnish-agent)
 
@@ -9,13 +9,13 @@ It also includes the [Enhanced Varnish Dashboard](https://github.com/brandonwamb
 
 ## Tags
 
-| Tags |
-|:-------:| 
-| `:4.1.4-ubuntu-16.04` |
+| Tag | Dockerfile Build Context |
+|:-------:|:---------:|
+| `:4.1.4-ubuntu-16.04`, `:latest` | [View](variants/4.1.4-ubuntu-16.04 ) |
 
-## Quick start
+## Usage
 
-- An example `docker-compose.yml` is included demonstrating how to use this image with an separate Varnish image (e.g. [`varnish-alpine-docker`](https://github.com/thiagofigueiro/varnish-alpine-docker)).
+An example `docker-compose.yml` is included demonstrating how to use this image with an separate Varnish image (e.g. [`varnish-alpine-docker`](https://github.com/thiagofigueiro/varnish-alpine-docker)).
 
 ## Environment variables
 
