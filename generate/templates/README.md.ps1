@@ -5,8 +5,7 @@
 [![github-tag](https://img.shields.io/github/tag/theohbrothers/docker-varnish-agent)](https://github.com/theohbrothers/docker-varnish-agent/releases/)
 [![docker-image-size](https://img.shields.io/docker/image-size/theohbrothers/docker-varnish-agent/latest)](https://hub.docker.com/r/theohbrothers/docker-varnish-agent)
 
-This is a docker image for the [Varnish Agent](https://github.com/varnish/vagent2).
-It also includes the [Enhanced Varnish Dashboard](https://github.com/brandonwamboldt/varnish-dashboard) which you may use if you want to.
+Dockerized image for the [Varnish Agent](https://github.com/varnish/vagent2), including the [Enhanced Varnish Dashboard](https://github.com/brandonwamboldt/varnish-dashboard).
 
 ## Tags
 
