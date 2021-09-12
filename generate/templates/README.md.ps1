@@ -2,11 +2,10 @@
 # docker-varnish-agent
 
 [![github-actions](https://github.com/theohbrothers/docker-varnish-agent/workflows/ci-master-pr/badge.svg)](https://github.com/theohbrothers/docker-varnish-agent/actions)
-[![docker-image-size](https://img.shields.io/microbadger/image-size/theohbrothers/docker-varnish-agent/latest)](https://hub.docker.com/r/theohbrothers/docker-varnish-agent)
-[![docker-image-layers](https://img.shields.io/microbadger/layers/theohbrothers/docker-varnish-agent/latest)](https://hub.docker.com/r/theohbrothers/docker-varnish-agent)
+[![github-release](https://img.shields.io/github/v/release/theohbrothers/docker-varnish-agent?style=flat-square)](https://github.com/theohbrothers/docker-varnish-agent/releases/)
+[![docker-image-size](https://img.shields.io/docker/image-size/theohbrothers/docker-varnish-agent/latest)](https://hub.docker.com/r/theohbrothers/docker-varnish-agent)
 
-This is a docker image for the [Varnish Agent](https://github.com/varnish/vagent2).
-It also includes the [Enhanced Varnish Dashboard](https://github.com/brandonwamboldt/varnish-dashboard) which you may use if you want to.
+Dockerized [Varnish Agent](https://github.com/varnish/vagent2), including the [Enhanced Varnish Dashboard](https://github.com/brandonwamboldt/varnish-dashboard).
 
 ## Tags
 
