@@ -5,6 +5,7 @@ $VARIANTS = @(
             components = @( 'varnishdashboard' )
             distro = 'ubuntu'
             distro_version = '16.04'
+            platforms = 'linux/386,linux/amd64,linux/arm/v7,linux/arm64,linux/s390x'
             VARNISH_AGENT_VERSION = '4.1.4'
             VARNISH_DASHBOARD_COMMIT = "e2cc1c854941c9fac18bdfedba2819fa766a5549"
         }

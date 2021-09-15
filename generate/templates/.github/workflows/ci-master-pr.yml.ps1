@@ -13,7 +13,7 @@ jobs:
 '@
 
 $local:WORKFLOW_JOB_NAMES = $VARIANTS | % { "build-$( $_['tag'].Replace('.', '-') )" }
-$( $VARIANTS | % {
+$VARIANTS | % {
 @"
 
 
@@ -97,18 +97,21 @@ $( $VARIANTS | % {
         DOCKERHUB_REGISTRY_USER: ${{ secrets.DOCKERHUB_REGISTRY_USER }}
         DOCKERHUB_REGISTRY_PASSWORD: ${{ secrets.DOCKERHUB_REGISTRY_PASSWORD }}
 
+
+'@
+@"
     - name: Build (PRs)
       id: docker_build_pr
       # Run only on pull requests
       if: github.event_name == 'pull_request'
       uses: docker/build-push-action@v2
       with:
-        context: ${{ steps.prep.outputs.CONTEXT }}
-        platforms: linux/386,linux/amd64,linux/arm,linux/arm64,linux/s390x
+        context: `${{ steps.prep.outputs.CONTEXT }}
+        platforms: $( $_['_metadata']['platforms'] -join ',' )
         push: false
         tags: |
-          ${{ github.repository }}:${{ steps.prep.outputs.VARIANT_TAG_WITH_REF }}
-          ${{ github.repository }}:${{ steps.prep.outputs.VARIANT_TAG_WITH_REF_AND_SHA_SHORT }}
+          `${{ github.repository }}:`${{ steps.prep.outputs.VARIANT_TAG_WITH_REF }}
+          `${{ github.repository }}:`${{ steps.prep.outputs.VARIANT_TAG_WITH_REF_AND_SHA_SHORT }}
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache
 
@@ -118,12 +121,12 @@ $( $VARIANTS | % {
       if: github.ref == 'refs/heads/master'
       uses: docker/build-push-action@v2
       with:
-        context: ${{ steps.prep.outputs.CONTEXT }}
-        platforms: linux/386,linux/amd64,linux/arm,linux/arm64,linux/s390x
+        context: `${{ steps.prep.outputs.CONTEXT }}
+        platforms: $( $_['_metadata']['platforms'] -join ',' )
         push: true
         tags: |
-          ${{ github.repository }}:${{ steps.prep.outputs.VARIANT_TAG_WITH_REF }}
-          ${{ github.repository }}:${{ steps.prep.outputs.VARIANT_TAG_WITH_REF_AND_SHA_SHORT }}
+          `${{ github.repository }}:`${{ steps.prep.outputs.VARIANT_TAG_WITH_REF }}
+          `${{ github.repository }}:`${{ steps.prep.outputs.VARIANT_TAG_WITH_REF_AND_SHA_SHORT }}
         cache-to: type=local,dest=/tmp/.buildx-cache
 
     - name: Build and push (release)
@@ -133,15 +136,15 @@ $( $VARIANTS | % {
       if: github.ref == 'refs/heads/release'
       uses: docker/build-push-action@v2
       with:
-        context: ${{ steps.prep.outputs.CONTEXT }}
-        platforms: linux/386,linux/amd64,linux/arm,linux/arm64,linux/s390x
+        context: `${{ steps.prep.outputs.CONTEXT }}
+        platforms: $( $_['_metadata']['platforms'] -join ',' )
         push: true
         tags: |
-          ${{ github.repository }}:${{ steps.prep.outputs.VARIANT_TAG }}
-          ${{ github.repository }}:${{ steps.prep.outputs.VARIANT_TAG_WITH_REF }}
-          ${{ github.repository }}:${{ steps.prep.outputs.VARIANT_TAG_WITH_REF_AND_SHA_SHORT }}
+          `${{ github.repository }}:`${{ steps.prep.outputs.VARIANT_TAG }}
+          `${{ github.repository }}:`${{ steps.prep.outputs.VARIANT_TAG_WITH_REF }}
+          `${{ github.repository }}:`${{ steps.prep.outputs.VARIANT_TAG_WITH_REF_AND_SHA_SHORT }}
 
-'@
+"@
 
 if ( $_['tag_as_latest'] ) {
 @'
@@ -160,7 +163,7 @@ if ( $_['tag_as_latest'] ) {
       run: docker logout
       if: always()
 '@
-})
+}
 
 @"
 
