@@ -1,40 +1,33 @@
 FROM ubuntu:16.04
 
-RUN VARNISH_AGENT_VERSION="4.1.4" \
-    && VARNISH_DASHBOARD_COMMIT="e2cc1c854941c9fac18bdfedba2819fa766a5549" \
-    && buildDeps="automake build-essential curl ca-certificates libvarnishapi-dev libmicrohttpd-dev libcurl4-gnutls-dev pkg-config python-docutils git" \
-    && runDeps="libvarnishapi1 libmicrohttpd10 libcurl4-gnutls-dev" \
-    \
-    # Install Varnish Agent
-    && apt-get update \
-    && apt-get install -y --no-install-recommends $buildDeps \
-    && curl -o /tmp/vagent2.tar.gz -SL https://github.com/varnish/vagent2/archive/${VARNISH_AGENT_VERSION}.tar.gz \
-    && tar -zxvf /tmp/vagent2.tar.gz  -C /tmp/ \
-    && rm -rf  /tmp/vagent2.tar.gz \
-    && cd /tmp/vagent2-${VARNISH_AGENT_VERSION} \
+RUN apt-get update \
+    && buildDeps="wget ca-certificates git automake build-essential libvarnishapi-dev libmicrohttpd-dev libcurl4-gnutls-dev pkg-config python-docutils" \
+    && apt-get install --no-install-recommends -y $buildDeps \
+    && VARNISH_AGENT_VERSION="4.1.4" \
+    && wget -qO- "https://github.com/varnish/vagent2/archive/$VARNISH_AGENT_VERSION.tar.gz" > /tmp/vagent2.tar.gz \
+    && tar -C /tmp -zxvf /tmp/vagent2.tar.gz \
+    && cd "/tmp/vagent2-$VARNISH_AGENT_VERSION" \
     && ./autogen.sh \
     && ./configure \
     && make \
     && make install \
     && ldconfig \
+    && rm -rf /tmp/vagent2.tar.gz \
     \
-    # Install Varnish Dashboard
-    && mkdir -p /var/www/html \
-    && cd /var/www/html \
-    && git clone https://github.com/brandonwamboldt/varnish-dashboard.git \
-    && cd varnish-dashboard \
-    && git checkout ${VARNISH_DASHBOARD_COMMIT} \
+    && VARNISH_DASHBOARD_COMMIT="e2cc1c854941c9fac18bdfedba2819fa766a5549" \
+    && git clone https://github.com/brandonwamboldt/varnish-dashboard.git /var/www/html/varnish-dashboard \
+    && cd /var/www/html/varnish-dashboard \
+    && git checkout "$VARNISH_DASHBOARD_COMMIT" \
+    && rm -rf .git \
     \
-    # Cleanup
-    && apt-get purge -y --auto-remove $buildDeps \
+    && apt-get purge --auto-remove -y $buildDeps \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     \
-    # Install runtime dependencies
     && apt-get update \
-    && apt-get install -y --no-install-recommends $runDeps \
+    && runDeps="libvarnishapi1 libmicrohttpd10 libcurl4-gnutls-dev" \
+    && apt-get install --no-install-recommends -y $runDeps \
     \
-    # Cleanup
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
