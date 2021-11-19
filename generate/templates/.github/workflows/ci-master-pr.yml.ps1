@@ -5,7 +5,8 @@ on:
   push:
     branches:
     - master
-    - release # For Generate-DockerImageVariants: For CalVer releases. Each push to 'release' branch is a time-based release.
+    tags:
+    - '**'
   pull_request:
     branches:
     - master
@@ -21,7 +22,6 @@ $VARIANTS | % {
     runs-on: ubuntu-latest
     env:
       VARIANT_TAG: $( $_['tag'] )
-      # VARIANT_TAG_WITH_REF: $( $_['tag'] )-`${GITHUB_REF}
       VARIANT_BUILD_DIR: $( $_['build_dir_rel'] )
 "@
 @'
@@ -70,11 +70,12 @@ $VARIANTS | % {
         # CI_PROJECT_NAMESPACE=$( echo "${{ github.repository }}" | cut -d '/' -f 1 )
         # CI_PROJECT_NAME=$( echo "${{ github.repository }}" | cut -d '/' -f 2 )
 
-        # Get 'ref-name' from 'refs/heads/ref-name'
+        # Get <branch_name> from refs/heads/<branch_name>, or <tag-name> from refs/tags/<tag_name>. E.g. . E.g. 'master', 'v1.2.3'
         REF=$( echo "${GITHUB_REF}" | rev | cut -d '/' -f 1 | rev )
+        # Get commit hash E.g. 'b29758a'
         SHA_SHORT=$( echo "${GITHUB_SHA}" | cut -c1-7 )
 
-        # For Generate-DockerImageVariants: Generate the final tags. E.g. 'master-v1.0.0-alpine' and 'master-b29758a-v1.0.0-alpine'
+        # Generate the final tags. E.g. 'master-v1.0.0-alpine' and 'master-b29758a-v1.0.0-alpine'
         VARIANT_TAG_WITH_REF="${REF}-${VARIANT_TAG}"
         VARIANT_TAG_WITH_REF_AND_SHA_SHORT="${REF}-${SHA_SHORT}-${VARIANT_TAG}"
 
@@ -84,14 +85,13 @@ $VARIANTS | % {
         # echo "::set-output name=REF::$REF"
         # echo "::set-output name=SHA_SHORT::$SHA_SHORT"
         # echo "::set-output name=REF_AND_SHA_SHORT::$REF_AND_SHA_SHORT"
-
-        # For Generate-DockerImageVariants: Set step output(s)
         echo "::set-output name=CONTEXT::$VARIANT_BUILD_DIR"
         echo "::set-output name=VARIANT_TAG::$VARIANT_TAG"
         echo "::set-output name=VARIANT_TAG_WITH_REF::$VARIANT_TAG_WITH_REF"
         echo "::set-output name=VARIANT_TAG_WITH_REF_AND_SHA_SHORT::$VARIANT_TAG_WITH_REF_AND_SHA_SHORT"
 
     - name: Login to docker registry
+      if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/')
       run: echo "${DOCKERHUB_REGISTRY_PASSWORD}" | docker login -u "${DOCKERHUB_REGISTRY_USER}" --password-stdin
       env:
         DOCKERHUB_REGISTRY_USER: ${{ secrets.DOCKERHUB_REGISTRY_USER }}
@@ -131,9 +131,7 @@ $VARIANTS | % {
 
     - name: Build and push (release)
       id: docker_build_release
-      # For Generate-DockerImageVariants: For CalVer releases. Each push to 'release' branch is a time-based release.
-      # if: startsWith(github.ref, 'refs/tags/')
-      if: github.ref == 'refs/heads/release'
+      if: startsWith(github.ref, 'refs/tags/')
       uses: docker/build-push-action@v2
       with:
         context: `${{ steps.prep.outputs.CONTEXT }}
@@ -168,67 +166,8 @@ if ( $_['tag_as_latest'] ) {
 @"
 
 
-  # For Generate-DockerImageVariants: For CalVer releases. Each push to 'release' branch is a time-based release.
-  converge-master-and-release-branches:
-    needs: [$( $local:WORKFLOW_JOB_NAMES -join ', ' )]
-    if: github.ref == 'refs/heads/release'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: Merge release into master (fast-forward)
-        run: |
-          git checkout master
-          git merge release
-          git push origin master
-"@
-
-@'
-
-
-  # For Generate-DockerImageVariants: For CalVer releases. Each push to 'release' branch is a time-based release.
-  resolve-release-tag:
-    runs-on: ubuntu-latest
-    outputs:
-      TAG: ${{ steps.resolve-release-tag.outputs.TAG }}
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: Resolve release tag
-        id: resolve-release-tag
-        run: |
-          set +e
-          # E.g. 20210402
-          TODAYS_DATE=$( date -u '+%Y%m%d' )
-          # Is this the first tag for this date?
-          TODAYS_DATE_TAGS=$( git tag --list | grep "^$TODAYS_DATE" )
-          TAG=
-          if [ -z "$TODAYS_DATE_TAGS" ]; then
-              # E.g. 20210402.0.0
-              TAG="$TODAYS_DATE.0.0" # Send this to stdout
-          else
-              # E.g. if there are 20210402.0.0, 20210402.0.1, 20210402.0.2, this returns 2
-              VERSION_MINOR_LATEST=$( echo "$TODAYS_DATE_TAGS" | cut -d '.' -f 3 | sort -nr | head -n1 )
-              # Minor version
-              VERSION_MINOR=$( expr "$VERSION_MINOR_LATEST" + 1 )
-              # E.g. 20210402.0.3
-              TAG="$TODAYS_DATE.0.$VERSION_MINOR"  # Send this to stdout
-          fi
-          echo "TODAYS_DATE: $TODAYS_DATE"
-          echo "TODAYS_DATE_TAGS: $TODAYS_DATE_TAGS"
-          echo "TAG: $TAG"
-          echo "::set-output name=TAG::$TAG"
-      - name: Print outputs
-        run: echo ${{ steps.resolve-release-tag.outputs.TAG }}
-'@
-
-@"
-
-
   update-draft-release:
-    needs: [$( $local:WORKFLOW_JOB_NAMES -join ', ' ), resolve-release-tag]
+    needs: [$( $local:WORKFLOW_JOB_NAMES -join ', ' )]
 "@
 @'
 
@@ -236,17 +175,11 @@ if ( $_['tag_as_latest'] ) {
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: Print inputs
-        run: echo ${{ needs.resolve-release-tag.outputs.TAG }}
       # Drafts your next Release notes as Pull Requests are merged into "master"
       - uses: release-drafter/release-drafter@v5
         with:
           config-name: release-drafter.yml
           publish: false
-          name: ${{ needs.resolve-release-tag.outputs.TAG }}
-          tag: ${{ needs.resolve-release-tag.outputs.TAG }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 '@
@@ -255,23 +188,27 @@ if ( $_['tag_as_latest'] ) {
 
 
   publish-draft-release:
-    needs: [$( $local:WORKFLOW_JOB_NAMES -join ', ' ), converge-master-and-release-branches, resolve-release-tag]
+    needs: [$( $local:WORKFLOW_JOB_NAMES -join ', ' )]
 "@
 @'
 
-    # For Generate-DockerImageVariants: For CalVer releases. Each push to 'release' branch is a time-based release.
-    # if: startsWith(github.ref, 'refs/tags/')
-    if: github.ref == 'refs/heads/release'
+    if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Resolve tag
+        id: resolve-tag
+        run: |
+          # Get <branch_name> from refs/heads/<branch_name>, or <tag-name> from refs/tags/<tag_name>. E.g. . E.g. 'master', 'v1.2.3'
+          REF=$( echo "${GITHUB_REF}" | rev | cut -d '/' -f 1 | rev )
+          echo "::set-output name=REF::$REF"
       # Drafts your next Release notes as Pull Requests are merged into "master"
       - uses: release-drafter/release-drafter@v5
         with:
           config-name: release-drafter.yml
           publish: true
-          name: ${{ needs.resolve-release-tag.outputs.TAG }}
-          tag: ${{ needs.resolve-release-tag.outputs.TAG }}
+          name: ${{ steps.resolve-tag.outputs.REF }}
+          tag: ${{ steps.resolve-tag.outputs.REF }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
