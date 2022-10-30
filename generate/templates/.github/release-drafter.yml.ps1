@@ -1,6 +1,6 @@
 @'
-name-template: '$RESOLVED_VERSION  🌈'
-tag-template: '$RESOLVED_VERSION'
+name-template: 'v$RESOLVED_VERSION  🌈'
+tag-template: 'v$RESOLVED_VERSION'
 categories:
   - title: '🚀 Features'
     labels:
@@ -50,4 +50,5 @@ template: |
   ## Changes
 
   $CHANGES
+
 '@
