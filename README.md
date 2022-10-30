@@ -38,3 +38,17 @@ An example `docker-compose.yml` is included demonstrating how to use this image 
 Q: Why is there no alpine image?
 
 - At the present moment, alpine is not yet supported by the [Varnish Agent](https://github.com/varnish/vagent2)
+
+## Development
+
+Requires Windows `powershell` or [`pwsh`](https://github.com/PowerShell/PowerShell).
+
+```powershell
+# Install Generate-DockerImageVariants module: https://github.com/theohbrothers/Generate-DockerImageVariants
+Install-Module -Name Generate-DockerImageVariants -Repository PSGallery -Scope CurrentUser -Force -Verbose
+
+# Edit ./generate templates
+
+# Generate the variants
+Generate-DockerImageVariants .
+```
