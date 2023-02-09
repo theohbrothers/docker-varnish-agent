@@ -15,12 +15,12 @@ $(
 ($VARIANTS | % {
     if ( $_['tag_as_latest'] ) {
 @"
-| ``:$( $_['tag'] )``, ``:latest`` | [View](variants/$( $_['tag'] ) ) |
+| ``:$( $_['tag'] )``, ``:latest`` | [View](variants/$( $_['tag'] )) |
 
 "@
     }else {
 @"
-| ``:$( $_['tag'] )`` | [View](variants/$( $_['tag'] ) ) |
+| ``:$( $_['tag'] )`` | [View](variants/$( $_['tag'] )) |
 
 "@
     }
