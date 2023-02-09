@@ -10,7 +10,7 @@ Dockerized [Varnish Agent](https://github.com/varnish/vagent2), including the [E
 
 | Tag | Dockerfile Build Context |
 |:-------:|:---------:|
-| `:4.1.4-ubuntu-16.04`, `:latest` | [View](variants/4.1.4-ubuntu-16.04 ) |
+| `:4.1.4-ubuntu-16.04`, `:latest` | [View](variants/4.1.4-ubuntu-16.04) |
 
 ## Usage
 
