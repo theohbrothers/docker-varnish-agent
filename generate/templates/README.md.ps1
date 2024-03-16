@@ -1,7 +1,7 @@
 @"
 # docker-varnish-agent
 
-[![github-actions](https://github.com/theohbrothers/docker-varnish-agent/workflows/ci-master-pr/badge.svg)](https://github.com/theohbrothers/docker-varnish-agent/actions)
+[![github-actions](https://github.com/theohbrothers/docker-varnish-agent/actions/workflows/ci-master-pr.yml/badge.svg?branch=master)](https://github.com/theohbrothers/docker-varnish-agent/actions/workflows/ci-master-pr.yml)
 [![github-release](https://img.shields.io/github/v/release/theohbrothers/docker-varnish-agent?style=flat-square)](https://github.com/theohbrothers/docker-varnish-agent/releases/)
 [![docker-image-size](https://img.shields.io/docker/image-size/theohbrothers/docker-varnish-agent/latest)](https://hub.docker.com/r/theohbrothers/docker-varnish-agent)
 
